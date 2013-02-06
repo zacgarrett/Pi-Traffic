@@ -2,9 +2,22 @@
 import time
 import os
 import RPi.GPIO as GPIO
+from datetime import datetime
 
 GPIO.setmode(GPIO.BCM)
+
+# Set the location for the CSV file
+CSV_folder = '/home/pi/csv/'
+CSV_file = 'output.csv'
+
+wheel_delay = 50 # milliseconds to make sure to catch both tires
+
+#enable debugging to get more console output
 DEBUG = 1
+
+# Make sure the sensor is really detecting a car 
+tolerance = 10
+last_read = 0
 
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
@@ -54,19 +67,16 @@ GPIO.setup(SPIMISO, GPIO.IN)
 GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
-# Pressure sensor is connected to adc #0
+# Pressure sensor is connected to adc #1 
+# Note: adc pins are 0-7
 pressure_adc = 1;
 
-# Make sure the sensor is really detecting a car 
-last_read = 0       
-tolerance = 5       
-
-#pressure_reading = readadc(pressure_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
-#print pressure_reading
+# Open CSV file for writing (append mode)
+f = open('%s%s'%(CSV_folder, CSV_file)), 'a'
 
 
 while True:
-        # we'll assume that the pot didn't move
+        # we'll assume that a car is not driving over when starting
         pressure_sensor_changed = False
 
         # read the analog pin
@@ -80,7 +90,18 @@ while True:
                 print "last_read", last_read
 
         if ( pressure_adjust > tolerance ):
-               pressure_sensor_changed = True
+            if (strike_number == 0):
+                firstwheel =  datetime.now()
+                measuring = 1
+            if (strike_number == 1)
+                secondwheel = datetime.now()
+                measuring = 0
+
+
+               #pressure_sensor_changed = True
+
+               # CSV Format: date,time,pressure
+               #csv_line = 
 
         if DEBUG:
                 print "pressure_sensor_changed", pressure_sensor_changed
@@ -89,19 +110,3 @@ while True:
         last_read = pressure_sensor
         # hang out and do nothing for a half second
         time.sleep(0.5)
-'''
-        if ( pressure_sensor_changed ):
-                set_volume = trim_pot / 10.24           # convert 10bit adc0 (0-1024) trim pot read into 0-100 volume level
-                set_volume = round(set_volume)          # round out decimal value
-                set_volume = int(set_volume)            # cast volume as integer
-
-                print 'Volume = {volume}%' .format(volume = set_volume)
-                set_vol_cmd = 'sudo amixer cset numid=1 -- {volume}% > /dev/null' .format(volume = set_volume)
-                os.system(set_vol_cmd)  # set volume
-
-
-                if DEBUG:
-                        print "set_volume", set_volume
-                        print "tri_pot_changed", set_volume
-'''
-
