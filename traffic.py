@@ -55,28 +55,28 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 # Pressure sensor is connected to adc #0
-pressure_adc = 0;
+pressure_adc = 1;
 
 # Make sure the sensor is really detecting a car 
 last_read = 0       
 tolerance = 5       
 
-pressure_reading = readadc(pressure_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
-print pressure_reading
+#pressure_reading = readadc(pressure_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+#print pressure_reading
 
-'''
+
 while True:
         # we'll assume that the pot didn't move
         trim_pot_changed = False
 
         # read the analog pin
-        trim_pot = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        pressure_sensor = readadc(pressure_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
         # how much has it changed since the last read?
-        pot_adjust = abs(trim_pot - last_read)
+        pressure_adjust = abs(pressure_sensor - last_read)
 
         if DEBUG:
-                print "trim_pot:", trim_pot
-                print "pot_adjust:", pot_adjust
+                print "pressure_sensor:", pressure_sensor
+                print "pressure_adjust:", pressure_adjust
                 print "last_read", last_read
 
         if ( pot_adjust > tolerance ):
@@ -84,7 +84,7 @@ while True:
 
         if DEBUG:
                 print "trim_pot_changed", trim_pot_changed
-
+'''
         if ( trim_pot_changed ):
                 set_volume = trim_pot / 10.24           # convert 10bit adc0 (0-1024) trim pot read into 0-100 volume level
                 set_volume = round(set_volume)          # round out decimal value
@@ -98,9 +98,8 @@ while True:
                 if DEBUG:
                         print "set_volume", set_volume
                         print "tri_pot_changed", set_volume
-
+'''
         # save the potentiometer reading for the next loop
         last_read = trim_pot
         # hang out and do nothing for a half second
         time.sleep(0.5)
-'''
