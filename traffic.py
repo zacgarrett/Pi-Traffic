@@ -79,7 +79,7 @@ while True:
                 print "pressure_adjust:", pressure_adjust
                 print "last_read", last_read
 
-        if ( pot_adjust > tolerance ):
+        if ( pressure_adjust > tolerance ):
                pressure_sensor_changed = True
 
         if DEBUG:
