@@ -67,7 +67,7 @@ tolerance = 5
 
 while True:
         # we'll assume that the pot didn't move
-        trim_pot_changed = False
+        pressure_sensor_changed = False
 
         # read the analog pin
         pressure_sensor = readadc(pressure_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
@@ -80,12 +80,12 @@ while True:
                 print "last_read", last_read
 
         if ( pot_adjust > tolerance ):
-               trim_pot_changed = True
+               pressure_sensor_changed = True
 
         if DEBUG:
-                print "trim_pot_changed", trim_pot_changed
+                print "pressure_sensor_changed", pressure_sensor_changed
 '''
-        if ( trim_pot_changed ):
+        if ( pressure_sensor_changed ):
                 set_volume = trim_pot / 10.24           # convert 10bit adc0 (0-1024) trim pot read into 0-100 volume level
                 set_volume = round(set_volume)          # round out decimal value
                 set_volume = int(set_volume)            # cast volume as integer
