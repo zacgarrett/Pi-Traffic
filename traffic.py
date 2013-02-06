@@ -55,14 +55,16 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 # Pressure sensor is connected to adc #0
-
 pressure_adc = 0;
 
+# Make sure the sensor is really detecting a car 
+last_read = 0       
+tolerance = 5       
 
-last_read = 0       # this keeps track of the last potentiometer value
-tolerance = 5       # to keep from being jittery we'll only change
-                    # volume when the pot has moved more than 5 'counts'
+pressure_reading = readadc(pressure_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+print pressure_reading
 
+'''
 while True:
         # we'll assume that the pot didn't move
         trim_pot_changed = False
@@ -101,3 +103,4 @@ while True:
         last_read = trim_pot
         # hang out and do nothing for a half second
         time.sleep(0.5)
+'''
