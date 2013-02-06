@@ -84,6 +84,11 @@ while True:
 
         if DEBUG:
                 print "pressure_sensor_changed", pressure_sensor_changed
+
+        # save the potentiometer reading for the next loop
+        last_read = pressure_sensor
+        # hang out and do nothing for a half second
+        time.sleep(0.5)
 '''
         if ( pressure_sensor_changed ):
                 set_volume = trim_pot / 10.24           # convert 10bit adc0 (0-1024) trim pot read into 0-100 volume level
@@ -99,7 +104,4 @@ while True:
                         print "set_volume", set_volume
                         print "tri_pot_changed", set_volume
 '''
-        # save the potentiometer reading for the next loop
-        last_read = pressure_sensor
-        # hang out and do nothing for a half second
-        time.sleep(0.5)
+
