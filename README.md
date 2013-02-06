@@ -2,6 +2,8 @@ Pi-Traffic
 ==========
 This is a car monitoring script that runs on a raspberry pi. 
 
+    Note: At this moment this script is not yet functioning. 
+
 Project Goal
 ------------
 
