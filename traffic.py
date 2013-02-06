@@ -100,6 +100,6 @@ while True:
                         print "tri_pot_changed", set_volume
 '''
         # save the potentiometer reading for the next loop
-        last_read = trim_pot
+        last_read = pressure_sensor
         # hang out and do nothing for a half second
         time.sleep(0.5)
