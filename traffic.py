@@ -19,6 +19,10 @@ DEBUG = 1
 tolerance = 10
 last_read = 0
 
+# Pressure sensor is connected to adc #1 
+# Note: adc pins are 0-7
+pressure_adc = 1;
+
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
         if ((adcnum > 7) or (adcnum < 0)):
@@ -67,10 +71,6 @@ GPIO.setup(SPIMISO, GPIO.IN)
 GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
-# Pressure sensor is connected to adc #1 
-# Note: adc pins are 0-7
-pressure_adc = 1;
-
 # Open CSV file for writing (append mode)
 f = open('%s%s'%(CSV_folder, CSV_file)), 'a'
 
@@ -81,6 +81,7 @@ while True:
 
         # read the analog pin
         pressure_sensor = readadc(pressure_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+
         # how much has it changed since the last read?
         pressure_adjust = abs(pressure_sensor - last_read)
 
@@ -92,10 +93,11 @@ while True:
         if ( pressure_adjust > tolerance ):
             if (strike_number == 0):
                 firstwheel =  datetime.now()
-                measuring = 1
-            if (strike_number == 1)
+                strike_number = 1
+
+            elif (strike_number == 1):
                 secondwheel = datetime.now()
-                measuring = 0
+                strike_number = 0
 
 
                #pressure_sensor_changed = True
