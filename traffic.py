@@ -15,11 +15,11 @@ wheel_delay = 50 # milliseconds to make sure to catch both tires
 #enable debugging to get more console output
 DEBUG = 1
 
-# Make sure the sensor is really detecting a car 
+# Make sure the sensor is really detecting a car
 tolerance = 10
 last_read = 0
 
-# Pressure sensor is connected to adc #1 
+# Pressure sensor is connected to adc #1
 # Note: adc pins are 0-7
 pressure_adc = 1;
 
@@ -54,7 +54,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
                         adcout |= 0x1
 
         GPIO.output(cspin, True)
-        
+
         adcout >>= 1       # first bit is 'null' so drop it
         return adcout
 
@@ -63,7 +63,7 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 SPICLK = 18
 SPIMISO = 23
 SPIMOSI = 24
-SPICS = 25
+SPICS = 31
 
 # set up the SPI interface pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -72,7 +72,7 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 # Open CSV file for writing (append mode)
-f = open('%s%s'%(CSV_folder, CSV_file)), 'a'
+f = open('%s%s'%(CSV_folder, CSV_file)), 'a')
 
 
 while True:
@@ -103,7 +103,7 @@ while True:
                #pressure_sensor_changed = True
 
                # CSV Format: date,time,pressure
-               #csv_line = 
+               #csv_line =
 
         if DEBUG:
                 print "pressure_sensor_changed", pressure_sensor_changed
